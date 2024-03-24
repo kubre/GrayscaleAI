@@ -34,6 +34,8 @@ export const env = createEnv({
      */
     client: {
         // NEXT_PUBLIC_CLIENTVAR: z.string(),
+        NEXT_PUBLIC_APP_NAME: z.string(),
+        NEXT_PUBLIC_APP_DESC: z.string(),
     },
 
     /**
@@ -48,6 +50,8 @@ export const env = createEnv({
         GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
         TURSO_DATABASE_URL: process.env.TURSO_DATABASE_URL,
         TURSO_AUTH_TOKEN: process.env.TURSO_AUTH_TOKEN,
+        NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME,
+        NEXT_PUBLIC_APP_DESC: process.env.NEXT_PUBLIC_APP_DESC,
     },
     /**
      * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
