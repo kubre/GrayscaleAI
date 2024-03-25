@@ -1,6 +1,9 @@
 "use server";
 
 import * as cheerio from "cheerio";
+import { getServerAuthSession } from "~/server/auth";
+import { db } from "~/server/db";
+import { documents } from "~/server/db/schema";
 
 function cleanHtml(html: string) {
     const $ = cheerio.load(html);
@@ -9,18 +12,40 @@ function cleanHtml(html: string) {
 }
 
 export async function save(formData: FormData) {
+    const session = await getServerAuthSession();
+    if (!session) {
+        return {
+            status: 401,
+            message: "You need to be logged in to save the data",
+        }
+    }
+
     const data = formData.get("data") as string;
     const url = formData.get("url") as string;
     console.log("Saving data", data, url);
+    await db.insert(documents).values({
+        id: crypto.randomUUID(),
+        content: data,
+        source: url,
+        userId: session.user.id,
+    });
     return {
+        status: 200,
         message: "Data saved successfully",
     }
 }
 
 export async function scrapeUrl(prevState: any, formData: FormData) {
-    const url = formData.get("url") as string;
+    const source = formData.get("source") as string;
+    if (!source) {
+        return {
+            source: source,
+            message: "Invalid source url",
+        }
+    }
     try {
-        const res = await fetch("https://books.toscrape.com");
+        console.log("Scraping the given url", source);
+        const res = await fetch(source);
         if (!res.ok) {
             throw new Error("Unable to fetch the given url");
         }
@@ -29,14 +54,14 @@ export async function scrapeUrl(prevState: any, formData: FormData) {
         }
         const htmlStr = await res.text();
         return {
-            url: url,
+            source: source,
             data: cleanHtml(htmlStr),
         }
     } catch (e) {
         console.error("Unable to scrape the given url", e);
     }
     return {
-        url: url,
+        source: source,
         message: "Unable to scrape the given url",
     }
 }

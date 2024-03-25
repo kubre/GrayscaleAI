@@ -35,7 +35,7 @@ export const createTable = sqliteTableCreator((name) => `summarizer_${name}`);
 //   })
 // );
 
-export const Document = createTable(
+export const documents = createTable(
     "document",
     {
         id: text("id", { length: 255 }).notNull().primaryKey(),
