@@ -1,6 +1,7 @@
 "use server";
 
 import * as cheerio from "cheerio";
+import { desc, eq } from "drizzle-orm";
 import { getServerAuthSession } from "~/server/auth";
 import { db } from "~/server/db";
 import { documents } from "~/server/db/schema";
@@ -9,6 +10,25 @@ function cleanHtml(html: string) {
     const $ = cheerio.load(html);
     $("script").remove();
     return $("body").text().split("\n").map(x => x.trim()).filter(Boolean).join(" \n ");
+}
+
+export async function getDocuments() {
+    const session = await getServerAuthSession();
+    if (!session) {
+        return {
+            status: 401,
+            message: "You need to be logged in to view the data",
+        }
+    }
+
+    const data = await db.query.documents.findMany({
+        where: eq(documents.userId, session.user.id),
+        orderBy: [desc(documents.createdAt)],
+    });
+    return {
+        status: 200,
+        data: data,
+    }
 }
 
 export async function save(formData: FormData) {

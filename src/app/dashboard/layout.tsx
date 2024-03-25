@@ -30,18 +30,18 @@ export default async function RootLayout({
 
     return (
         <html lang="en">
-            <body className={`font-sans ${inter.variable} min-h-screen`}>
+            <body className={`font-sans ${inter.variable} max-h-screen flex flex-col items-stretch h-screen`}>
                 <ThemeProvider
                     attribute="class"
                     defaultTheme="dark"
                     enableSystem
                     disableTransitionOnChange
                 >
-                    <nav className="flex justify-between items-center sticky px-8 py-2 w-full border-b border-slate-800/80">
+                    <nav className="flex justify-between items-center sticky h-16 px-8 py-2 w-full border-b border-slate-800/80">
                         <h1 className="text-xl font-bold">{env.NEXT_PUBLIC_APP_NAME}</h1>
                         <DashboardProfileNavigation user={session.user} />
                     </nav>
-                    <main className="min-h-[calc(100vh-58px)]">
+                    <main className="max-h-[calc(100vh-64px)]">
                         {children}
                     </main>
                 </ThemeProvider>
