@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import Link from "next/link"
 
 import { cn } from "~/lib/utils"
 import {
@@ -8,6 +9,7 @@ import {
     NavigationMenuItem,
     NavigationMenuLink,
     NavigationMenuList,
+    navigationMenuTriggerStyle,
 } from "~/components/ui/navigation-menu"
 import { signOut } from "next-auth/react"
 import { Button } from "./ui/button"
@@ -28,6 +30,13 @@ export function DashboardProfileNavigation({ user }: { user: Session["user"] }) 
     return (
         <NavigationMenu className="ml-auto">
             <NavigationMenuList className="gap-x-4">
+                <NavigationMenuItem>
+                    <Link href="/dashboard/documents" legacyBehavior passHref>
+                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                            Manage Documents
+                        </NavigationMenuLink>
+                    </Link>
+                </NavigationMenuItem>
                 <NavigationMenuItem>
                     <Button variant="ghost" onClick={() => signOut}>
                         Sign out

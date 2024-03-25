@@ -41,7 +41,7 @@ export default async function RootLayout({
                         <h1 className="text-xl font-bold">{env.NEXT_PUBLIC_APP_NAME}</h1>
                         <DashboardProfileNavigation user={session.user} />
                     </nav>
-                    <main className="max-h-[calc(100vh-64px)]">
+                    <main className="h-[calc(100vh-64px)]">
                         {children}
                     </main>
                 </ThemeProvider>

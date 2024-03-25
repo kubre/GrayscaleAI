@@ -40,7 +40,9 @@ export const documents = createTable(
     {
         id: text("id", { length: 255 }).notNull().primaryKey(),
         content: text("content"),
-        source: text("source", { length: 3000 }),
+        sourceName: text("sourceName", { length: 500 }),
+        sourceUrl: text("sourceUrl", { length: 3000 }),
+        sourceLocation: text("sourceLocation", { length: 300 }),
         userId: text("userId", { length: 255 }).notNull().references(() => users.id),
         createdAt: int("createdAt", { mode: "timestamp" })
             .default(sql`CURRENT_TIMESTAMP`).notNull(),

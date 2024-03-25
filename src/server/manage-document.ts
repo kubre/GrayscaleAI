@@ -42,11 +42,15 @@ export async function save(formData: FormData) {
 
     const data = formData.get("data") as string;
     const url = formData.get("url") as string;
+    const name = formData.get("name") as string;
+    const location = formData.get("location") as string;
     console.log("Saving data", data, url);
     await db.insert(documents).values({
         id: crypto.randomUUID(),
         content: data,
-        source: url,
+        sourceName: "",
+        sourceUrl: url,
+        sourceLocation: "",
         userId: session.user.id,
     });
     return {

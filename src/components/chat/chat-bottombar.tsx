@@ -160,7 +160,7 @@ export default function ChatBottombar({
                         onKeyDown={handleKeyPress}
                         onChange={handleInputChange}
                         name="message"
-                        placeholder="Start "
+                        placeholder="Start typing..."
                         className="w-full border rounded-full flex items-center h-9 resize-none overflow-hidden bg-background"
                     ></Textarea>
                     <div className="absolute right-2 bottom-2  ">

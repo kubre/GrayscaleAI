@@ -4,7 +4,7 @@ import { RocketIcon } from "@radix-ui/react-icons";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { useFormState } from "react-dom";
-import { scrapeUrl } from "./actions";
+import { scrapeUrl } from "~/server/manage-document";
 
 const initialState = {
     source: "",
