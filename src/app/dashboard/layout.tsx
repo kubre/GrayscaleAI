@@ -24,6 +24,7 @@ export default async function RootLayout({
     const session = await getServerAuthSession();
 
     if (!session) {
+        console.log("No session exists, redirecting to login");
         redirect("/");
     }
 
