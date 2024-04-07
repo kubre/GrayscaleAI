@@ -2,6 +2,7 @@ import "~/styles/globals.css";
 
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "~/components/ThemeProvider";
+import { env } from "~/env";
 
 const inter = Inter({
     subsets: ["latin"],
@@ -9,8 +10,8 @@ const inter = Inter({
 });
 
 export const metadata = {
-    title: "Summarizer",
-    description: "AI powered agent on all of your knowledge",
+    title: env.NEXT_PUBLIC_APP_NAME,
+    description: env.NEXT_PUBLIC_APP_DESC,
     icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 

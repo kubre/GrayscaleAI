@@ -1,15 +1,15 @@
 "use server";
 
-import * as cheerio from "cheerio";
+// import * as cheerio from "cheerio";
 import { desc, eq } from "drizzle-orm";
 import { getServerAuthSession } from "~/server/auth";
 import { db } from "~/server/db";
 import { documents } from "~/server/db/schema";
 
-function cleanHtml(html: string) {
-    const $ = cheerio.load(html);
-    $("script").remove();
-    return $("body").text().split("\n").map(x => x.trim()).filter(Boolean).join(" \n ");
+import { CheerioWebBaseLoader } from "langchain/document_loaders/web/cheerio";
+
+function cleanText(text: string) {
+    return text.split("\n").map(x => x.trim()).filter(Boolean).join(" \n ");
 }
 
 export async function getDocuments() {
@@ -68,18 +68,28 @@ export async function scrapeUrl(prevState: any, formData: FormData) {
         }
     }
     try {
-        console.log("Scraping the given url", source);
-        const res = await fetch(source);
-        if (!res.ok) {
-            throw new Error("Unable to fetch the given url");
-        }
-        if (!res.headers.get("content-type")?.startsWith("text/html")) {
-            throw new Error("Given URL is not a valid HTML page");
-        }
-        const htmlStr = await res.text();
+        const loader = new CheerioWebBaseLoader(source);
+
+        const docs = await loader.load();
+        docs.forEach((doc) => {
+            doc.pageContent = cleanText(doc.pageContent);
+        });
+
+        console.log("Scraped data", docs);
+
+
+        // console.log("Scraping the given url", source);
+        // const res = await fetch(source);
+        // if (!res.ok) {
+        //     throw new Error("Unable to fetch the given url");
+        // }
+        // if (!res.headers.get("content-type")?.startsWith("text/html")) {
+        //     throw new Error("Given URL is not a valid HTML page");
+        // }
+        // const htmlStr = await res.text();
         return {
             source: source,
-            data: cleanHtml(htmlStr),
+            data: "" //cleanHtml(htmlStr),
         }
     } catch (e) {
         console.error("Unable to scrape the given url", e);

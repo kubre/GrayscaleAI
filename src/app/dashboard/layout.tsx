@@ -10,12 +10,6 @@ const inter = Inter({
     variable: "--font-sans",
 });
 
-export const metadata = {
-    title: "Summarizer",
-    description: "AI powered agent on all of your knowledge",
-    icons: [{ rel: "icon", url: "/favicon.ico" }],
-};
-
 export default async function RootLayout({
     children,
 }: {
